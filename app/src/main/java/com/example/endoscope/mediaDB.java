@@ -22,22 +22,25 @@ public class mediaDB extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase myDB) {
-        myDB.execSQL("CREATE TABLE patientData (id INTEGER PRIMARY KEY AUTOINCREMENT, docName TEXT NOT NULL,media TEXT NOT NULL)");
+        myDB.execSQL("CREATE TABLE info (id INTEGER PRIMARY KEY AUTOINCREMENT, docId INTEGER NOT NULL,docName TEXT NOT NULL, patientName TEXT,media TEXT NOT NULL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase myDB, int i, int i1) {
-        myDB.execSQL("DROP TABLE IF EXISTS patientData");
+        myDB.execSQL("DROP TABLE IF EXISTS info");
 
     }
-    public Boolean addData(String uname, String media){
+    public Boolean addData(int docId,String uname,String pname, String media){
         SQLiteDatabase myDB = this.getReadableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put("docId",docId);
         values.put("docName",uname);
+        values.put("patientName",pname);
         values.put("media",media);
 
-        long result = myDB.insert("patientData",null,values);
+
+        long result = myDB.insert("info",null,values);
         if(result==1){return false;} return true;
     }
 }

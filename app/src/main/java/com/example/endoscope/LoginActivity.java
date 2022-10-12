@@ -38,12 +38,13 @@ public class LoginActivity extends AppCompatActivity {
             String pass = password.getText().toString();
             if(user.equals("")||pass.equals("")) Toast.makeText(LoginActivity.this,"Please fill all the details",Toast.LENGTH_SHORT).show();
             else {
-                Boolean checkUserAndPass = myDB.loginCheck(user, pass);
-                if(checkUserAndPass){
-                    Toast.makeText(LoginActivity.this,"Hello "+user,Toast.LENGTH_SHORT).show();
+                int userID = myDB.loginCheck(user, pass);
+                if(userID>0){
+                    Toast.makeText(LoginActivity.this,"Hello "+user+" "+userID,Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                    intent.putExtra("auth",user);
+                    intent.putExtra("id",userID);
+                    intent.putExtra("authName",user);
                     startActivity(intent);
                 }else{
                     Toast.makeText(LoginActivity.this,"Invalid name or password",Toast.LENGTH_SHORT).show();
